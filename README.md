@@ -1,6 +1,6 @@
 # label_printer
 
-<!-- [![Pub Version](https://img.shields.io/pub/v/esc_pos_printer)](https://pub.dev/packages/esc_pos_printer) -->
+[![Pub Version](https://img.shields.io/pub/v/esc_pos_printer)](https://pub.dev/packages/label_printer)
 
 The library allows to print label using an ESC/POS thermal WiFi/Ethernet printer.
 
@@ -43,4 +43,4 @@ printer.image(image, {
     alpha: 50
 })
 ```
-## THANKS FOR SUPPORT. START FOLLOWING ME ON GITHUB, LINKED, FACEBOOK, ...
+## THANKS FOR SUPPORT LEAVE ME A START OR A LIKE IF IT HELPFUL

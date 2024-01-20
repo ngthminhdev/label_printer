@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:image/image.dart' as ImageLib;
+import 'package:image/image.dart' as img;
 import 'package:label_printer/src/enums.dart';
 
 class LabelPrinter {
@@ -81,7 +81,7 @@ class LabelPrinter {
   /// [x]: horizontal position to start print
   /// [y]: vertical position to start print
   /// [alpha]: the alpha channel level of the pixel is being ignored
-  void image(ImageLib.Image image,
+  void image(img.Image image,
       {int numOfSet = 1, int numOfPrint = 1, int x = 0, int y = 0, int alpha = 50}) {
     int dotsPerMm = (dpi / 25.4).round();
     int width = labelWidth * dotsPerMm; //
@@ -105,7 +105,7 @@ class LabelPrinter {
     _socket.write('EOP\r\n');
   }
 
-  List<int> getImageInBitmap(ImageLib.Image image, {int alpha = 50, int width = 0, height = 0}) {
+  List<int> getImageInBitmap(img.Image image, {int alpha = 50, int width = 0, height = 0}) {
     try {
       final data =
           List.generate(height, (y) => List<int>.filled(width, 0));
@@ -116,7 +116,7 @@ class LabelPrinter {
           int mask = 128;
           for (int x = b * 8; x < (b + 1) * 8; x++) {
             int? color = image.getPixel(x, y);
-            int aChannel = ImageLib.getAlpha(color);
+            int aChannel = img.getAlpha(color);
             if (aChannel <= alpha) {
               byte ^= mask; // mark as empty dot (not print)
             }
