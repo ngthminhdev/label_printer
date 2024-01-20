@@ -1,39 +1,46 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# label_printer
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+<!-- [![Pub Version](https://img.shields.io/pub/v/esc_pos_printer)](https://pub.dev/packages/esc_pos_printer) -->
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+The library allows to print label using an ESC/POS thermal WiFi/Ethernet printer.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+It can be used in [Flutter](https://flutter.dev/) or pure [Dart](https://dart.dev/) projects. For Flutter projects, both Android and iOS are supported.
 
-## Features
+To scan for printers in your network, consider using [ping_discover_network](https://pub.dev/packages/ping_discover_network) package. Note that most of the ESC/POS printers by default listen on port 9100.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## TODO (PRs are welcomed!)
 
-## Getting started
+- Print Image from assets or boundary Image with png format
+- I will update more feature later ...
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
 
-## Usage
+## How to Help
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+- Test and report bugs
+- Share your ideas about what could be improved (code optimization, new features...)
+- PRs are welcomed!
+
+### Simple print Label:
 
 ```dart
-const like = 'sample';
+final printer = LabelPrinter('192.168.0.1', 9100, {
+    printerType: PrinterType.label,
+    printMode: PrintMode.overwrite,
+    metric: Metric.mm,
+    direction: Direction.up,
+    dpi: 203,
+    verticalGap: 2,
+    horizontalGap: 2,
+    labelWidth: 65,
+    labelHeight: 35,
+});
+
+printer.image(image, {
+    numOfSet: 1
+    numOfPrint: 1
+    x: 0
+    y: 0
+    alpha: 50
+})
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+## THANKS FOR SUPPORT. START FOLLOWING ME ON GITHUB, LINKED, FACEBOOK, ...
