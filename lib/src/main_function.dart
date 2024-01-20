@@ -82,7 +82,11 @@ class LabelPrinter {
   /// [y]: vertical position to start print
   /// [alpha]: the alpha channel level of the pixel is being ignored
   void image(img.Image image,
-      {int numOfSet = 1, int numOfPrint = 1, int x = 0, int y = 0, int alpha = 50}) {
+      {int numOfSet = 1,
+      int numOfPrint = 1,
+      int x = 0,
+      int y = 0,
+      int alpha = 50}) {
     int dotsPerMm = (dpi / 25.4).round();
     int width = labelWidth * dotsPerMm; //
     int height = labelHeight * dotsPerMm;
@@ -105,10 +109,10 @@ class LabelPrinter {
     _socket.write('EOP\r\n');
   }
 
-  List<int> getImageInBitmap(img.Image image, {int alpha = 50, int width = 0, height = 0}) {
+  List<int> getImageInBitmap(img.Image image,
+      {int alpha = 50, int width = 0, height = 0}) {
     try {
-      final data =
-          List.generate(height, (y) => List<int>.filled(width, 0));
+      final data = List.generate(height, (y) => List<int>.filled(width, 0));
 
       for (int y = 0; y < height; y++) {
         for (int b = 0; b < width; b++) {
