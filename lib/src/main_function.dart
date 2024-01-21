@@ -14,9 +14,7 @@ import 'package:image/image.dart' as img;
 import 'package:label_printer/src/enums.dart';
 
 class LabelPrinter {
-  LabelPrinter(
-    this._host,
-    this._port, {
+  LabelPrinter({
     this.printerType = PrinterType.label,
     this.printMode = PrintMode.overwrite,
     this.metric = Metric.mm,
@@ -28,8 +26,8 @@ class LabelPrinter {
     this.labelHeight = 0,
   });
 
-  String _host;
-  int _port;
+  String? _host;
+  int? _port;
 
   late Socket _socket;
 
@@ -49,8 +47,8 @@ class LabelPrinter {
   final int verticalGap;
   final int horizontalGap;
 
-  String get host => _host;
-  int get port => _port;
+  String? get host => _host;
+  int? get port => _port;
 
   /// connect to printer
   Future<PosPrintResult> connect(String host,
@@ -75,24 +73,26 @@ class LabelPrinter {
 
   // ************************* PRINTER COMMAND *************************
 
-  /// [image]: image in png format
-  /// [numOfSet]: specifies how many copies should be printed foreach particular label set
-  /// [numOfPrint]: specifies how many sets of labels will be printed
-  /// [x]: horizontal position to start print
-  /// [y]: vertical position to start print
-  /// [alpha]: the alpha channel level of the pixel is being ignored
+  /// Print image
+  ///
+  /// [image] image in png format
+  /// [numOfSet] specifies how many copies should be printed foreach particular label set
+  /// [numOfPrint] specifies how many sets of labels will be printed
+  /// [xOffset] horizontal position to start print
+  /// [yOffset] vertical position to start print
+  /// [alpha] the alpha channel level of the pixel is being ignored
   void image(img.Image image,
       {int numOfSet = 1,
       int numOfPrint = 1,
-      int x = 0,
-      int y = 0,
+      int xOffset = 0,
+      int yOffset = 0,
       int alpha = 50}) {
     int dotsPerMm = (dpi / 25.4).round();
     int width = labelWidth * dotsPerMm; //
     int height = labelHeight * dotsPerMm;
-    List<int> imgBit = getImageInBitmap(image, alpha: alpha);
+    List<int> imgBit = _getImageInBitmap(image, alpha: alpha);
 
-    String bitCmd = 'BITMAP $x,$y,$width,$height,$printMode,';
+    String bitCmd = 'BITMAP $xOffset,$yOffset,$width,$height,$printMode,';
     int len = bitCmd.length;
     Uint8List buffer = Uint8List(imgBit.length + len);
     buffer.setRange(0, len, utf8.encode(bitCmd));
@@ -109,7 +109,7 @@ class LabelPrinter {
     _socket.write('EOP\r\n');
   }
 
-  List<int> getImageInBitmap(img.Image image,
+  List<int> _getImageInBitmap(img.Image image,
       {int alpha = 50, int width = 0, height = 0}) {
     try {
       final data = List.generate(height, (y) => List<int>.filled(width, 0));
@@ -136,4 +136,21 @@ class LabelPrinter {
       return [];
     }
   }
+
+
+  /// Add raw Uint8List command to printer
+  ///
+  /// [cmd] Uint8List commands
+  void raw(List<int> cmd) {
+    _socket.add(cmd);
+  }
+
+
+  /// Add raw text command to printer
+  ///
+  /// [cmd] String commands
+  void rawText(String cmd) {
+    _socket.write(cmd);
+  }
+
 }

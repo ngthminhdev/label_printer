@@ -38,9 +38,22 @@ final printer = LabelPrinter('192.168.0.1', 9100, {
 printer.image(image, {
     numOfSet: 1
     numOfPrint: 1
-    x: 0
-    y: 0
+    xOffset: 0
+    yOffset: 0
     alpha: 50
 })
 ```
-## THANKS FOR SUPPORT LEAVE ME A START OR A LIKE IF IT HELPFUL
+
+### Simple raw commands:
+
+```dart
+// PRINT 1,1
+// EOP
+printer.raw([80, 82, 73, 78, 84, 32, 49, 44, 49, 13, 10, 69, 79, 80, 13, 10])
+
+// Or if you want to using LATIN instead
+printer.rawText('PRINT 1,1\r\nEOP\r\n');
+
+```
+
+## THANKS FOR SUPPORT, LEAVE ME A START OR A LIKE IF IT HELPFUL

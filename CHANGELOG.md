@@ -1,3 +1,8 @@
+## 0.0.4
+
+- Change connection config
+- Add `raw` and `rawText` function
+
 ## 0.0.3
 
 - Update document
