@@ -86,3 +86,51 @@ class PosPrintResult {
     }
   }
 }
+
+class PrintTextSize {
+  const PrintTextSize._internal(this.size);
+  final int size;
+
+  static const xxSmall = PrintTextSize._internal(1);
+  static const xSmall = PrintTextSize._internal(2);
+  static const small = PrintTextSize._internal(3);
+  static const medium = PrintTextSize._internal(4);
+  static const large = PrintTextSize._internal(5);
+  static const xLarge = PrintTextSize._internal(6);
+  static const xxLarge = PrintTextSize._internal(7);
+  static const xxxLarge = PrintTextSize._internal(8);
+
+  int get value => size;
+}
+
+class PrintRotation {
+  const PrintRotation._internal(this.degree);
+  final int degree;
+
+  static const none = PrintRotation._internal(0);
+  static const quarter = PrintRotation._internal(90);
+  static const half = PrintRotation._internal(180);
+  static const quarterTo = PrintRotation._internal(270);
+
+  int get value => degree;
+}
+
+class PrintAlign {
+  const PrintAlign._internal(this.align);
+  final int align;
+
+  static const left = PrintAlign._internal(1);
+  static const center = PrintAlign._internal(2);
+  static const right = PrintAlign._internal(3);
+
+  String get value {
+    if (align == PrintAlign.left.align) {
+      return '0';
+    } else if (align == PrintAlign.center.align) {
+      return '1';
+    } else if (align == PrintAlign.right.align) {
+      return '2';
+    }
+    return '0';
+  }
+}

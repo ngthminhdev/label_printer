@@ -47,10 +47,12 @@ class LabelPrinter {
   final int verticalGap;
   final int horizontalGap;
 
+  String _internalCommand = '';
+
   String? get host => _host;
   int? get port => _port;
 
-  /// connect to printer
+  /// Connect to printer
   Future<PosPrintResult> connect(String host,
       {int port = 9100, Duration timeout = const Duration(seconds: 5)}) async {
     _host = host;
@@ -73,6 +75,22 @@ class LabelPrinter {
 
   // ************************* PRINTER COMMAND *************************
 
+  /// Get printer info
+  void info() {
+    _socket.write('SELFTEST');
+  }
+
+  /// Prefix seting up command before print
+  ///
+  String _prefixCommand() {
+    return 'SIZE $labelWidth ${metric.unitString}, $labelHeight ${metric.unitString}\r\nGAP $horizontalGap ${metric.unitString}, $verticalGap ${metric.unitString}\r\nDIRECTION ${direction.directionString}\r\nCLS\r\n';
+  }
+
+  /// Execute print command
+  void _execute({int numOfSet = 1, int numOfPrint = 1}) {
+    _socket.write('\nPRINT $numOfSet,$numOfPrint\r\nEOP\r\n');
+  }
+
   /// Print image
   ///
   /// [image] image in png format
@@ -81,6 +99,7 @@ class LabelPrinter {
   /// [xOffset] horizontal position to start print
   /// [yOffset] vertical position to start print
   /// [alpha] the alpha channel level of the pixel is being ignored
+  ///
   void image(img.Image image,
       {int numOfSet = 1,
       int numOfPrint = 1,
@@ -98,15 +117,9 @@ class LabelPrinter {
     buffer.setRange(0, len, utf8.encode(bitCmd));
     buffer.setRange(len, buffer.length, imgBit);
 
-    _socket.write(
-        'SIZE $labelWidth ${metric.unitString}, $labelHeight ${metric.unitString}\r\n');
-    _socket.write(
-        'GAP $horizontalGap ${metric.unitString}, $verticalGap ${metric.unitString}\r\n');
-    _socket.write('DIRECTION ${direction.directionString}\r\n');
-    _socket.write('CLS\r\n');
+    _socket.write(_prefixCommand());
     _socket.add(buffer);
-    _socket.write('\nPRINT $numOfSet,$numOfPrint\r\n');
-    _socket.write('EOP\r\n');
+    _execute(numOfSet: numOfSet, numOfPrint: numOfPrint);
   }
 
   List<int> _getImageInBitmap(img.Image image,
@@ -137,20 +150,46 @@ class LabelPrinter {
     }
   }
 
-
   /// Add raw Uint8List command to printer
   ///
   /// [cmd] Uint8List commands
+  ///
   void raw(List<int> cmd) {
     _socket.add(cmd);
   }
 
-
   /// Add raw text command to printer
   ///
   /// [cmd] String commands
+  ///
   void rawText(String cmd) {
     _socket.write(cmd);
   }
 
+  /// Get current building command before execute
+  String get commands => _internalCommand;
+
+  /// Add text to print
+  ///
+  /// [text] text to print
+  /// [xOffset] horizontal position to start print
+  /// [yOffset] vertical position to start print
+  /// [size] text size
+  /// [rotation] text rotation
+  /// [xScale] horizontal scale (1-10)
+  /// [yScale] vertical scale (1-10)
+  ///
+  void addText(
+    String text, {
+    int xOffset = 0,
+    int yOffset = 0,
+    PrintTextSize size = PrintTextSize.xxSmall,
+    PrintRotation rotation = PrintRotation.none,
+    int xScale = 0,
+    int yScale = 0,
+  }) {
+    String cmd =
+        'TEXT $xOffset,$yOffset,"${size.value}",${rotation.value},$xScale,$yScale,"$text"\r\n';
+    _internalCommand += cmd;
+  }
 }
