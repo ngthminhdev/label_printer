@@ -1,3 +1,9 @@
+## 0.0.6
+
+- Add printer info
+- Add text command
+- Add current generator command
+
 ## 0.0.4
 
 - Change connection config

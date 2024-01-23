@@ -20,6 +20,19 @@ To scan for printers in your network, consider using [ping_discover_network](htt
 - Share your ideas about what could be improved (code optimization, new features...)
 - PRs are welcomed!
 
+### Get current connected printer model info:
+
+```dart
+printer.info();
+```
+
+### Get current command:
+
+```dart
+printer.commands;
+// 'PRINT1,1,...'
+```
+
 ### Simple print Label:
 
 ```dart
@@ -41,7 +54,19 @@ printer.image(image, {
     xOffset: 0
     yOffset: 0
     alpha: 50
-})
+});
+```
+
+### Simple add text to current commands:
+
+```dart
+printer.addText(
+    'Hello world',
+    xOffset: 0
+    yOffset: 0
+    size: PrintTextSize.large,
+    rotation: PrintRotation.none,
+);
 ```
 
 ### Simple raw commands:
@@ -49,11 +74,11 @@ printer.image(image, {
 ```dart
 // PRINT 1,1
 // EOP
-printer.raw([80, 82, 73, 78, 84, 32, 49, 44, 49, 13, 10, 69, 79, 80, 13, 10])
+printer.raw([80, 82, 73, 78, 84, 32, 49, 44, 49, 13, 10, 69, 79, 80, 13, 10]);
 
 // Or if you want to using LATIN instead
 printer.rawText('PRINT 1,1\r\nEOP\r\n');
 
 ```
 
-## THANKS FOR SUPPORT, LEAVE ME A START OR A LIKE IF IT HELPFUL
+## THANKS FOR SUPPORT, LEAVE ME A STAR OR A LIKE IF IT HELPFUL

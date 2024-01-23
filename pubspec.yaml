@@ -1,6 +1,6 @@
 name: label_printer
 description: Print label using image, boundary, ... with flutter 
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/ngthminhdev/label_printer
 
 
