@@ -36,7 +36,7 @@ printer.commands;
 ### Simple print Label:
 
 ```dart
-final printer = LabelPrinter('192.168.0.1', 9100, {
+final printer = LabelPrinter(
     printerType: PrinterType.label,
     printMode: PrintMode.overwrite,
     metric: Metric.mm,
@@ -46,15 +46,17 @@ final printer = LabelPrinter('192.168.0.1', 9100, {
     horizontalGap: 2,
     labelWidth: 65,
     labelHeight: 35,
-});
+);
 
-printer.image(image, {
-    numOfSet: 1
-    numOfPrint: 1
-    xOffset: 0
-    yOffset: 0
-    alpha: 50
-});
+await printer.connect('192.168.0.1', 9100);
+
+printer.image(image, 
+    numOfSet: 1,
+    numOfPrint: 1,
+    xOffset: 0,
+    yOffset: 0,
+    alpha: 50,
+);
 ```
 
 ### Simple add text to current commands:

@@ -109,7 +109,7 @@ class LabelPrinter {
     int dotsPerMm = (dpi / 25.4).round();
     int width = labelWidth * dotsPerMm; //
     int height = labelHeight * dotsPerMm;
-    List<int> imgBit = _getImageInBitmap(image, alpha: alpha);
+    List<int> imgBit = _getImageInBitmap(image, alpha: alpha, width: width, height: height);
 
     String bitCmd = 'BITMAP $xOffset,$yOffset,$width,$height,$printMode,';
     int len = bitCmd.length;

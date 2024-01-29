@@ -1,3 +1,7 @@
+## 0.0.7
+
+- Fix image print, update document
+
 ## 0.0.6
 
 - Add printer info
